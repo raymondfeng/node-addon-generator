@@ -40,31 +40,34 @@ var addon = {
     ]
 }
 
-var ejs = require('ejs');
-var path = require('path');
 
+var generator = require('./lib/generators/addon');
+generator.generate(addon);
+
+/*
 var template = path.join(__dirname, 'templates/addon/src/object.cpp.ejs');
-ejs.renderFile(template, {obj: myObj}, function (err, content) {
+ejs.renderFile(template, myObj, function (err, content) {
     if (!err)
         console.log(content);
 });
 
 template = path.join(__dirname, 'templates/addon/src/object.h.ejs');
-ejs.renderFile(template, {obj: myObj}, function (err, content) {
+ejs.renderFile(template, myObj, function (err, content) {
     if (!err)
         console.log(content);
 });
 
 template = path.join(__dirname, 'templates/addon/binding.gyp.ejs');
-ejs.renderFile(template, {addon: addon}, function (err, content) {
+ejs.renderFile(template, addon, function (err, content) {
     if (!err)
         console.log(content);
 });
 
 
 template = path.join(__dirname, 'templates/addon/src/addon.cpp.ejs');
-ejs.renderFile(template, {addon: addon}, function (err, content) {
+ejs.renderFile(template, addon, function (err, content) {
     if (!err)
         console.log(content);
 });
+*/
 

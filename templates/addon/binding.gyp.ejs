@@ -1,9 +1,9 @@
 {
   "targets": [
     {
-      "target_name": "<%- addon.name %>",
+      "target_name": "<%- name %>",
       "sources": [
-      "<%- addon.files.join('",\n "') %>"
+      "<%- files.join('",\n "') %>"
       ],
       "cflags!": [ "-fno-exceptions" ],
       "cflags_cc!": [ "-fno-exceptions" ]

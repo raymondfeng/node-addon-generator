@@ -1,32 +1,32 @@
 #include <v8.h>
 #include <node.h>
-#include "<%- obj.name.toLowerCase() %>.h"
+#include "<%- name.toLowerCase() %>.h"
 
 using namespace v8;
 
-<%- obj.name %>::<%- obj.name %>() {};
-<%- obj.name %>::~<%- obj.name %>() {};
+<%- name %>::<%- name %>() {};
+<%- name %>::~<%- name %>() {};
 
-void <%- obj.name %>::Init(Handle<Object> target) {
+void <%- name %>::Init(Handle<Object> target) {
   // Prepare constructor template
   Local<FunctionTemplate> tpl = FunctionTemplate::New(New);
-  tpl->SetClassName(String::NewSymbol("<%- obj.name %>"));
+  tpl->SetClassName(String::NewSymbol("<%- name %>"));
   tpl->InstanceTemplate()->SetInternalFieldCount(1);
 
   // Prototype
-  <% obj.functions.forEach(function(f) { %>
+  <% functions.forEach(function(f) { %>
   tpl->PrototypeTemplate()->Set(String::NewSymbol("<%- f.name %>"),
       FunctionTemplate::New(<%- f.cppName %>)->GetFunction());
   <% }); %>
 
   constructor = Persistent<Function>::New(tpl->GetFunction());
-  target->Set(String::NewSymbol("<%- obj.name %>"), constructor);
+  target->Set(String::NewSymbol("<%- name %>"), constructor);
 }
 
-Handle<Value> <%- obj.name %>::New(const Arguments& args) {
+Handle<Value> <%- name %>::New(const Arguments& args) {
   HandleScope scope;
 
-  <%- obj.name %>* obj = new <%- obj.name %>();
+  <%- name %>* obj = new <%- name %>();
 
   // ----
   //
@@ -38,7 +38,7 @@ Handle<Value> <%- obj.name %>::New(const Arguments& args) {
 }
 
 /*
-Handle<Value> <%- obj.name %>::NewInstance(const Arguments& args) {
+Handle<Value> <%- name %>::NewInstance(const Arguments& args) {
   HandleScope scope;
 
   const unsigned argc = 1;
@@ -49,11 +49,11 @@ Handle<Value> <%- obj.name %>::NewInstance(const Arguments& args) {
 }
 */
 
-<% obj.functions.forEach(function(f) { %>
-Handle<Value> <%- obj.name %>::<%- f.cppName %>(const Arguments& args) {
+<% functions.forEach(function(f) { %>
+Handle<Value> <%- name %>::<%- f.cppName %>(const Arguments& args) {
   HandleScope scope;
 
-  <%- obj.name %>* obj = ObjectWrap::Unwrap<<%- obj.name %>>(args.This());
+  <%- name %>* obj = ObjectWrap::Unwrap<<%- name %>>(args.This());
 
   <% f.args.forEach(function(arg, i) { %>
     REQ_<%- arg.type.toUpperCase() %>_ARG(<%- i %>, <%- arg.name || 'arg'+i %>)
@@ -74,7 +74,7 @@ Handle<Value> <%- obj.name %>::<%- f.cppName %>(const Arguments& args) {
 }
 
 <% if(f.async) { %>
-void <%- obj.name %>::<%- f.cppName %>Async(uv_work_t* req) {
+void <%- name %>::<%- f.cppName %>Async(uv_work_t* req) {
   <%- f.cppName %>Baton* baton = static_cast<<%- f.cppName %>Baton*>(req->data);
 
   try {
@@ -86,7 +86,7 @@ void <%- obj.name %>::<%- f.cppName %>Async(uv_work_t* req) {
   }
 }
 
-void <%- obj.name %>::After<%- f.cppName %>Async(uv_work_t* req, int status) {
+void <%- name %>::After<%- f.cppName %>Async(uv_work_t* req, int status) {
   HandleScope scope;
   <%- f.cppName %>Baton* baton = static_cast<<%- f.cppName %>Baton*>(req->data);
 

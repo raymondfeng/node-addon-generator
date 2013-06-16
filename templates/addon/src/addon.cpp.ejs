@@ -4,12 +4,12 @@
 using namespace v8;
 using namespace node;
 
-<% addon.objects.forEach(function(obj) { %>
+<% objects.forEach(function(obj) { %>
 #include "<%- obj.name %>.h"
 <% }); %>
 
 // module.exports = ...
-<% addon.objects.forEach(function(obj) { %>
+<% objects.forEach(function(obj) { %>
 void <%- obj.name%>Init(Handle<Object> exports, Handle<Object> module) {
   exports->Set(String::NewSymbol("<%- obj.name %>"), FunctionTemplate::New(<%- obj.name %>)->GetFunction());
 }
@@ -18,11 +18,11 @@ void <%- obj.name%>Init(Handle<Object> exports, Handle<Object> module) {
 
 extern "C" {
   static void init(Handle<Object> exports, Handle<Object> module) {
-    <% addon.objects.forEach(function(obj) { %>
+    <% objects.forEach(function(obj) { %>
     <%- obj.name %>::<%- obj.name %>Init(exports, module);
     <% }); %>
   }
 
-  NODE_MODULE(<%- addon.name %>, init);
+  NODE_MODULE(<%- name %>, init);
 }
 

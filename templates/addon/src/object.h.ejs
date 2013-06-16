@@ -1,5 +1,5 @@
-#ifndef <%- obj.name.toUpperCase()%>_H
-#define <%- obj.name.toUpperCase()%>_H
+#ifndef <%- name.toUpperCase()%>_H
+#define <%- name.toUpperCase()%>_H
 
 #include <string>
 #include <sstream>
@@ -15,18 +15,18 @@
 
 using namespace v8;
 
-class <%- obj.name %> : public node::ObjectWrap {
+class <%- name %> : public node::ObjectWrap {
  public:
   static void Init(Handle<Object> exports);
 
  private:
-  <%- obj.name %>();
-  ~<%- obj.name %>();
+  <%- name %>();
+  ~<%- name %>();
 
   static Persistent<Function> constructor;
   static Handle<Value> New(const Arguments& args);
 
-  <% obj.functions.forEach(function(f) { %>
+  <% functions.forEach(function(f) { %>
   static Handle<Value> <%- f.cppName %>(const Arguments& args);
   <% if(f.async) { %>
   static void <%- f.cppName %>Async(uv_work_t* req);
@@ -36,7 +36,7 @@ class <%- obj.name %> : public node::ObjectWrap {
 };
 
 
-<% obj.functions.forEach(function(f) { %>
+<% functions.forEach(function(f) { %>
 <% if(f.async) { %>
 class <%- f.cppName %>Baton {
 public:
