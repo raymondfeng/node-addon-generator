@@ -1,8 +1,18 @@
 #ifndef <%- obj.name.toUpperCase()%>_H
 #define <%- obj.name.toUpperCase()%>_H
 
+#include <string>
+#include <sstream>
+#include <stdio.h>
+#include <stdlib.h>
+
+#ifndef WIN32
+  #include <unistd.h>
+#endif
+
 #include <v8.h>
 #include <node.h>
+
 using namespace v8;
 
 class <%- obj.name %> : public node::ObjectWrap {

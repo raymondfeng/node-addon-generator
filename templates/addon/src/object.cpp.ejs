@@ -37,6 +37,7 @@ Handle<Value> <%- obj.name %>::New(const Arguments& args) {
   return args.This();
 }
 
+/*
 Handle<Value> <%- obj.name %>::NewInstance(const Arguments& args) {
   HandleScope scope;
 
@@ -46,6 +47,7 @@ Handle<Value> <%- obj.name %>::NewInstance(const Arguments& args) {
 
   return scope.Close(instance);
 }
+*/
 
 <% obj.functions.forEach(function(f) { %>
 Handle<Value> <%- obj.name %>::<%- f.cppName %>(const Arguments& args) {

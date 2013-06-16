@@ -4,54 +4,25 @@
 using namespace v8;
 using namespace node;
 
-Handle<Value> <%- function %>(const Arguments& args) {
-  HandleScope scope;
-
-  Local<Object> obj = Object::New();
-  obj->Set(String::NewSymbol("msg"), args[0]->ToString());
-
-  return scope.Close(obj);
-}
-
-// Object factory
-Handle<Value> CreateObject(const Arguments& args) {
-  HandleScope scope;
-
-  Local<Object> obj = Object::New();
-
-  obj->Set(String::NewSymbol("msg"), args[0]->ToString());
-
-  return scope.Close(obj);
-}
-
-
-// Function factory
-Handle<Value> CreateFunction(const Arguments& args) {
-  HandleScope scope;
-
-  Local<FunctionTemplate> tpl = FunctionTemplate::New(<%- function %>);
-  Local<Function> fn = tpl->GetFunction();
-  fn->SetName(String::NewSymbol("<%- function %>")); // omit this to make it anonymous
-
-  return scope.Close(fn);
-}
-
+<% addon.objects.forEach(function(obj) { %>
+#include "<%- obj.name %>.h"
+<% }); %>
 
 // module.exports = ...
-void <%- cls %>Init(Handle<Object> exports, Handle<Object> module) {
-  module->Set(String::NewSymbol("exports"),
-      FunctionTemplate::New(<%- function %>)->GetFunction());
+<% addon.objects.forEach(function(obj) { %>
+void <%- obj.name%>Init(Handle<Object> exports, Handle<Object> module) {
+  exports->Set(String::NewSymbol("<%- obj.name %>"), FunctionTemplate::New(<%- obj.name %>)->GetFunction());
 }
-
+<% }); %>
 
 
 extern "C" {
-  static void init(Handle<Object> exports) {
-    <% addon.classes.forEach(function(cls) { %>
-    <%- cls %>::<%- cls %>Init(exports);
+  static void init(Handle<Object> exports, Handle<Object> module) {
+    <% addon.objects.forEach(function(obj) { %>
+    <%- obj.name %>::<%- obj.name %>Init(exports, module);
     <% }); %>
   }
 
-  NODE_MODULE(<%- addon.module %>, init);
+  NODE_MODULE(<%- addon.name %>, init);
 }
 
