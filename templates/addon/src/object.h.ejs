@@ -1,0 +1,47 @@
+#ifndef <%- obj.name.toUpperCase()%>_H
+#define <%- obj.name.toUpperCase()%>_H
+
+#include <v8.h>
+#include <node.h>
+using namespace v8;
+
+class <%- obj.name %> : public node::ObjectWrap {
+ public:
+  static void Init(Handle<Object> exports);
+
+ private:
+  <%- obj.name %>();
+  ~<%- obj.name %>();
+
+  static Persistent<Function> constructor;
+  static Handle<Value> New(const Arguments& args);
+
+  <% obj.functions.forEach(function(f) { %>
+  static Handle<Value> <%- f.cppName %>(const Arguments& args);
+  <% if(f.async) { %>
+  static void <%- f.cppName %>Async(uv_work_t* req);
+  static void After<%- f.cppName %>Async(uv_work_t* req, int status);
+  <% } %>
+  <% }); %>
+};
+
+
+<% obj.functions.forEach(function(f) { %>
+<% if(f.async) { %>
+class <%- f.cppName %>Baton {
+public:
+  <%- f.cppName %>Baton(Handle<Function>* callback);
+  ~<%- f.cppName %>Baton();
+
+  Persistent<Function> callback;
+
+   <% f.args.forEach(function(arg, i) { %>
+      Local<<%- arg.type %>>* <%- arg.name || 'arg'+i %>;
+    <% }); %>
+
+  std::string* error;
+};
+<% } %>
+<% }); %>
+
+#endif

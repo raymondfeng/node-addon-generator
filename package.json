@@ -1,0 +1,11 @@
+{
+    "name": "addon-builder",
+    "description": "Node.js C/C++ Addon builder",
+    "version": "0.0.1",
+    "dependencies": {
+        "commander": "latest",
+        "mkdirp": "latest",
+        "ejs": "latest",
+        "debug": "~0.7.2"
+    }
+}

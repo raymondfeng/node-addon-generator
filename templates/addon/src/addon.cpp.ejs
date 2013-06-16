@@ -1,0 +1,57 @@
+#include <v8.h>
+#include <node.h>
+
+using namespace v8;
+using namespace node;
+
+Handle<Value> <%- function %>(const Arguments& args) {
+  HandleScope scope;
+
+  Local<Object> obj = Object::New();
+  obj->Set(String::NewSymbol("msg"), args[0]->ToString());
+
+  return scope.Close(obj);
+}
+
+// Object factory
+Handle<Value> CreateObject(const Arguments& args) {
+  HandleScope scope;
+
+  Local<Object> obj = Object::New();
+
+  obj->Set(String::NewSymbol("msg"), args[0]->ToString());
+
+  return scope.Close(obj);
+}
+
+
+// Function factory
+Handle<Value> CreateFunction(const Arguments& args) {
+  HandleScope scope;
+
+  Local<FunctionTemplate> tpl = FunctionTemplate::New(<%- function %>);
+  Local<Function> fn = tpl->GetFunction();
+  fn->SetName(String::NewSymbol("<%- function %>")); // omit this to make it anonymous
+
+  return scope.Close(fn);
+}
+
+
+// module.exports = ...
+void <%- cls %>Init(Handle<Object> exports, Handle<Object> module) {
+  module->Set(String::NewSymbol("exports"),
+      FunctionTemplate::New(<%- function %>)->GetFunction());
+}
+
+
+
+extern "C" {
+  static void init(Handle<Object> exports) {
+    <% addon.classes.forEach(function(cls) { %>
+    <%- cls %>::<%- cls %>Init(exports);
+    <% }); %>
+  }
+
+  NODE_MODULE(<%- addon.module %>, init);
+}
+
