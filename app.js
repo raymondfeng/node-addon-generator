@@ -38,6 +38,7 @@ var myObj = {
 };
 var addon = {
     name: 'MyAddon',
+    version: '0.0.1',
     objects: [
         myObj
     ], files: [

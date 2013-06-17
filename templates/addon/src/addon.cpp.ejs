@@ -8,6 +8,27 @@ using namespace node;
 #include "<%- obj.name %>.h"
 <% }); %>
 
+
+// Function factory
+Handle<Value> CreateFunction(const Arguments& args, std::string name, Handle<Value> (*func)(const Arguments&) ) {
+  HandleScope scope;
+
+  Local<FunctionTemplate> tpl = FunctionTemplate::New(func);
+  Local<Function> fn = tpl->GetFunction();
+  fn->SetName(String::NewSymbol(name));
+
+  return scope.Close(fn);
+}
+
+// Object factory
+Handle<Value> CreateObject(const Arguments& args) {
+  HandleScope scope;
+
+  Local<Object> obj = Object::New();
+
+  return scope.Close(obj);
+}
+
 // module.exports = ...
 <% objects.forEach(function(obj) { %>
 void <%- obj.name%>Init(Handle<Object> exports, Handle<Object> module) {
