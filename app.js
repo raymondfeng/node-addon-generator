@@ -1,4 +1,4 @@
-var fs= require('fs');
+var fs = require('fs');
 
 var myObj = {
     name: 'MyObject',
@@ -19,7 +19,8 @@ var myObj = {
             ],
             return: {
                 type: 'Number'
-            }
+            },
+            static: false
         },
         {
             name: 'multiply',
@@ -52,29 +53,29 @@ var generator = require('./lib/generators/addon');
 generator.generate(addon);
 
 /*
-var template = path.join(__dirname, 'templates/addon/src/object.cpp.ejs');
-ejs.renderFile(template, myObj, function (err, content) {
-    if (!err)
-        console.log(content);
-});
+ var template = path.join(__dirname, 'templates/addon/src/object.cpp.ejs');
+ ejs.renderFile(template, myObj, function (err, content) {
+ if (!err)
+ console.log(content);
+ });
 
-template = path.join(__dirname, 'templates/addon/src/object.h.ejs');
-ejs.renderFile(template, myObj, function (err, content) {
-    if (!err)
-        console.log(content);
-});
+ template = path.join(__dirname, 'templates/addon/src/object.h.ejs');
+ ejs.renderFile(template, myObj, function (err, content) {
+ if (!err)
+ console.log(content);
+ });
 
-template = path.join(__dirname, 'templates/addon/binding.gyp.ejs');
-ejs.renderFile(template, addon, function (err, content) {
-    if (!err)
-        console.log(content);
-});
+ template = path.join(__dirname, 'templates/addon/binding.gyp.ejs');
+ ejs.renderFile(template, addon, function (err, content) {
+ if (!err)
+ console.log(content);
+ });
 
 
-template = path.join(__dirname, 'templates/addon/src/addon.cpp.ejs');
-ejs.renderFile(template, addon, function (err, content) {
-    if (!err)
-        console.log(content);
-});
-*/
+ template = path.join(__dirname, 'templates/addon/src/addon.cpp.ejs');
+ ejs.renderFile(template, addon, function (err, content) {
+ if (!err)
+ console.log(content);
+ });
+ */
 

@@ -21,9 +21,15 @@ class <%- name %> : public node::ObjectWrap {
  public:
   static void Init(Handle<Object> exports);
 
- private:
   <%- name %>();
   ~<%- name %>();
+
+  <% if(members) {
+    members.forEach(function(m, i) {
+  %>
+    <%- m.cppType %> <%- m.name %>;
+  <% });
+  } %>
 
   static Persistent<Function> constructor;
   static Handle<Value> New(const Arguments& args);
