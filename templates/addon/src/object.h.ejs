@@ -13,6 +13,8 @@
 #include <v8.h>
 #include <node.h>
 
+#include "utils.h"
+
 using namespace v8;
 
 class <%- name %> : public node::ObjectWrap {
@@ -40,13 +42,11 @@ class <%- name %> : public node::ObjectWrap {
 <% if(f.async) { %>
 class <%- f.cppName %>Baton {
 public:
-  <%- f.cppName %>Baton(Handle<Function>* callback);
+  <%- f.cppName %>Baton();
   ~<%- f.cppName %>Baton();
 
-  Persistent<Function> callback;
-
    <% f.args.forEach(function(arg, i) { %>
-      Local<<%- arg.type %>>* <%- arg.name || 'arg'+i %>;
+      <%- arg.cppType %> <%- arg.name %>;
     <% }); %>
 
   std::string* error;

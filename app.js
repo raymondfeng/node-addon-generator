@@ -2,14 +2,20 @@ var fs= require('fs');
 
 var myObj = {
     name: 'MyObject',
+    members: [
+        {name: 'a', type: 'String'},
+        {name: 'b', type: 'Boolean'},
+        {name: 'c', type: 'Object'},
+        {name: 'd', type: 'Number'}
+    ],
     functions: [
         {
             name: 'add',
             cppName: 'Add',
             args: [
-                {type: 'Number'},
-                {type: 'Number'},
-                {type: 'Function'}
+                {name: 'x', type: 'Number'},
+                {name: 'y', type: 'Number'},
+                {name: 'callback', type: 'Function'}
             ],
             return: {
                 type: 'Number'
@@ -19,9 +25,9 @@ var myObj = {
             name: 'multiply',
             cppName: 'Multiply',
             args: [
-                {type: 'Number'},
-                {type: 'Number'},
-                {type: 'Function'}
+                {name: 'x', type: 'Number'},
+                {name: 'y', type: 'Number'},
+                {name: 'callback', type: 'Function'}
             ],
             return: {
                 type: 'Number'

@@ -55,16 +55,16 @@ Handle<Value> <%- name %>::<%- f.cppName %>(const Arguments& args) {
 
   <%- name %>* obj = ObjectWrap::Unwrap<<%- name %>>(args.This());
 
+  <% if(f.async) { %>
+  <%- f.cppName %>Baton* baton = new <%- f.cppName %>Baton();
+
   <% f.args.forEach(function(arg, i) { %>
-    REQ_<%- arg.type.toUpperCase() %>_ARG(<%- i %>, <%- arg.name || 'arg'+i %>)
+    REQ_<%- arg.type.toUpperCase() %>_ARG(<%- i %>, <%- arg.name %>)
+  <% if(arg.type.toLowerCase() === 'function') { %>
+    baton-><%- arg.name %> = Persistent<Function>::New(&<%- arg.name %>);
+  <% } %>
   <% }); %>
 
-  <% if(f.async) {
-    var argNames = f.args.map(function(arg, i) {
-        return arg.name || 'arg'+i;
-    }).join(',');
-  %>
-  <%- f.cppName %>Baton* baton = new <%- f.cppName %>Baton(<%- argNames %>);
   uv_work_t* req = new uv_work_t();
   req->data = baton;
   uv_queue_work(uv_default_loop(), req, <%- f.cppName %>Async, (uv_after_work_cb)After<%- f.cppName %>Async);
