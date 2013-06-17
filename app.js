@@ -5,7 +5,7 @@ var addon = {
     version: '0.0.1', // Version of the addon
 
     // An array of C++ class declarations
-    objects: [
+    classes: [
         {
             name: 'MyObject', // Name of the class
             // An array of member declarations

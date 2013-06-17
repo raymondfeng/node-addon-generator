@@ -4,8 +4,8 @@
 using namespace v8;
 using namespace node;
 
-<% objects.forEach(function(obj) { %>
-#include "<%- obj.name %>.h"
+<% classes.forEach(function(cls) { %>
+#include "<%- cls.name %>.h"
 <% }); %>
 
 
@@ -30,17 +30,17 @@ Handle<Value> CreateObject(const Arguments& args) {
 }
 
 // module.exports = ...
-<% objects.forEach(function(obj) { %>
-void <%- obj.name%>Init(Handle<Object> exports, Handle<Object> module) {
-  exports->Set(String::NewSymbol("<%- obj.name %>"), FunctionTemplate::New(<%- obj.name %>)->GetFunction());
+<% classes.forEach(function(cls) { %>
+void <%- cls.name%>Init(Handle<Object> exports, Handle<Object> module) {
+  exports->Set(String::NewSymbol("<%- cls.name %>"), FunctionTemplate::New(<%- cls.name %>)->GetFunction());
 }
 <% }); %>
 
 
 extern "C" {
   static void init(Handle<Object> exports, Handle<Object> module) {
-    <% objects.forEach(function(obj) { %>
-    <%- obj.name %>::<%- obj.name %>Init(exports, module);
+    <% classes.forEach(function(cls) { %>
+    <%- cls.name %>::<%- cls.name %>Init(exports, module);
     <% }); %>
   }
 
